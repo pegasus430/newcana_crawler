@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <%= favicon_link_tag 'favicon.ico' %>
+        
+        <!--universal meta tags-->
+        <meta name="robots" content="index, follow"/>
+        <meta name="keywords" content="weed, marijuana, cannabis, cannabiz, hemp, cbd, cannabiz network, medical, legal, pot, recreational, strain, dispensary, vape, decriminalize, medicinal, cannabusiness, news, ganja, hydroponics, legalization, THC, terpene, cannabinoid, collective, MMJ, medical marijuana, Bong, dab, Vaporizer, medicinal, charlottes web" />
+        
+        <% if @product != nil %>
+            <title>Cannabiz Network: <%=@product.name%></title>
+            <meta name ="description" content="<%= truncate_html @product.description, :length => 100 %>" />
+            <meta property="og:description" content="<%= truncate_html @product.description, :length => 100 %>" />
+            <meta name="twitter:description" content="<%= truncate_html @product.description, :length => 100 %>" />
+        
+        <% elsif @dispensary != nil %>
+            <title>Cannabiz Network: <%=@dispensary.name%></title>
+            <meta name ="description" 
+                content="<%=@dispensary.name%> is a medical marijuana dispensary located at <%=@dispensary.location%>"/>
+            <meta name ="og:description" 
+                content="<%=@dispensary.name%> is a medical marijuana dispensary located at <%=@dispensary.location%>"/>
+            <meta name ="twitter:description" 
+                content="<%=@dispensary.name%> is a medical marijuana dispensary located at <%=@dispensary.location%>"/>    
+     
+        <% elsif @vendor != nil %>
+            <title>Cannabiz Network: <%=@vendor.name%></title>
+            <meta name ="description" content="<%= truncate_html @vendor.description, :length => 100 %>" />
+            <meta property="og:description" content="<%= truncate_html @vendor.description, :length => 100 %>" />
+            <meta name="twitter:description" content="<%= truncate_html @vendor.description, :length => 100 %>" />
+        
+        
+        <% elsif @article != nil %>
+
+            <title>Cannabiz Network: <%=@article.title%></title>
+            
+            <!--facebook-->
+            <meta property="og:title" content="Cannabiz Network: <%=@article.title%>" />
+            
+            <meta property="og:url" content="https://cannabiznetwork.com" />
+            <meta property="og:type" content="article" />
+
+            <!--twitter-->
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@CannabizNetwork" />
+            <meta name="twitter:title" content="<%=@article.title%>"/>
+            
+            <meta name="twitter:url" content="https://cannabiznetwork.com" />
+            
+            <!--images-->
+            <% if @article.image_url != nil && @article.image_url != ''%>
+                <meta name="twitter:image" content="<%=@article.image%>" />
+                <meta property="og:image" content="<%=@article.image%>" />
+            <% else %>
+                <meta name="twitter:image" content="<%= asset_url(@article.source.sidebar_logo) if @article.source %>" />
+                <meta property="og:image" content="<%= asset_url(@article.source.sidebar_logo) if @article.source %>" />
+            <% end %>
+            
+            <!--description-->
+            <%frag = Nokogiri::HTML(@article.body)%>
+            <%frag.xpath("//h1").each { |div|  div.name= "p"}%>
+            <%frag.xpath("//h2").each { |div|  div.name= "p"}%>
+            <%frag.xpath("//h3").each { |div|  div.name= "p"}%>
+            <%frag.xpath("//h4").each { |div|  div.name= "p"}%>
+            <%frag.xpath("//h5").each { |div|  div.name= "p"}%>
+            <%frag.xpath("//h6").each { |div|  div.name= "p"}%>
+            
+            <meta name ="description" content="<%= truncate_html frag, :length => 100 %>" />
+            <meta property="og:description" content="<%= truncate_html frag, :length => 100 %>" />
+            <meta name="twitter:description" content="<%= truncate_html frag, :length => 100 %>" />
+        
+        <% elsif @recents != nil && @mostviews != nil %>
+            <!--article index-->
+            <title>Latest Cannabis News and Updates - Cannabiz Network</title>
+            <meta name ="description" 
+                content="Never miss an update about Cannabis News, CBD, THC, Legal Marijuana, Marijuana laws, State Laws and Political Movements. Stay tuned to Cannabiz Network"/>
+            
+        <% elsif current_page?('https://www.cannabiznetwork.com/contact_us') %>
+            <!--contact us-->
+            <title>Contact - Cannabiz Network</title>
+            <meta name ="description"
+                content="Contact us today for any kind of help, queries, and suggestions related to our website. We promise you to help in best possible way."/>
+         
+        <% elsif current_page?('https://www.cannabiznetwork.com/feedback') %>
+            <!--feedback-->
+            <title>Feedback - Cannabiz Network</title>
+            <meta name ="description"
+                content="Leave us a feedback to help us grow better and bring improvements to our site and online store."/>
+   
+        <% elsif @products != nil %>
+            <!--product index-->
+            <title>Cannabiz Network - Online Cannabis Store</title>
+            <meta name ="description"
+                content="Shop from our best quality collection of cannabis, legal marijuana, haze, hybrid sativa & hybrid-indica online. We assure the best quality online and fastest service."/>
+   
+       <% elsif current_page?('https://www.cannabiznetwork.com/login') %>
+            <!--login -->
+            <title>Cannabiz Network - Member Login</title>
+            <meta name ="description"
+                content="Create an account on Cannabiz Network to shop online among the trending cannabis, legal marijuana, haze, CBD, and Weed products."/>
+   
+   
+        <% else %>
+            <!--home page-->
+            <title>Cannabiz Network - The Leading Source of Cannabis and Haze News</title>
+            <meta name ="description" 
+                content="Cannabiz Network is Washington's leading source of breaking news and expert opinions on cannabis-related developments and news like CBD, Legalization of Marijuana, Haze, Weed, Hybrid etc in Washington."/>
+     
+        <% end %>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= stylesheet_link_tag 'style', media: 'all', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+
+        <!--google analytics-->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        
+          ga('create', 'UA-96167975-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+        
+    </head>
+    
+    <body>
+        
+        <!--wrapper for all pages including header-->
+        <div class="wrapper">
+            <%= render 'shared/header' %>
+            <%= render 'shared/messages' %>
+            <%= yield %>
+            <!--removed footer rendering on all pages-->
+            <% if @recents == nil || (@state.present? && @state.product_state)  %>
+                <%= render 'shared/footer' %>
+            <% end %>
+        </div>
+        
+        <%= javascript_include_tag 'application' %>
+        <%= javascript_include_tag 'article_help'%>
+        <%= javascript_include_tag 'sticky' %>
+        <%= javascript_include_tag 'endless_scroll' %>
+        
+        <%= javascript_include_tag 'jquery-1.12.1.min' %>
+        <%= javascript_include_tag 'jquery.meanmenu' %>
+        <%= javascript_include_tag 'jquery.meanmenu.min' %>
+        <%= javascript_include_tag 'jquery.scrollUp' %>
+        <%= javascript_include_tag 'jquery.sticky' %>
+        <%= javascript_include_tag 'main' %>
+        <%= javascript_include_tag 'user_page' %>
+        
+        <script>
+            $(document).ready(function(){
+                $("#product-sidebar").sticky({topSpacing:10});
+            });   
+        </script>
+        
+        
+        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <%= javascript_include_tag 'dispensary_product'%>
+        
+        <%= javascript_include_tag 'age-verification' %>
+        <script src="https://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+        
+        <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=58c8388905e7400012bc6df2&product=inline-share-buttons"></script>
+        
+        <style>
+            #modal_content {
+                background-image: url(<%= asset_path('header_footer/mean-bar-logo.png') %>)
+            }
+            .trending-post-area .zm-trending-post{cursor:url(<%= asset_path 'icons/cursor.png' %>), auto;}
+        </style>
+        
+        <!--set product or dispensary form values-->
+        <% if @set_state.present? %>
+            <script>
+            	window.onload = setSelectedState('<%=@set_state%>');
+            </script>
+        <% end %>
+        <% if @searched_category.present? %>
+            <script>
+            	window.onload = setSelectedCategory('<%=@searched_category.name%>');
+            </script>
+        <% end %>
+        <% if @az_letter.present? %>
+            <script>
+            	// set the parameter in the form
+            	window.onload = selectSelectedAZValue('<%=@az_letter%>');
+            </script>
+        <% end %>
+    </body>
+</html>

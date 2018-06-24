@@ -1,0 +1,18 @@
+<!-- display errors -->
+<%= render 'shared/errors', obj: @user %>
+
+<div class="message-box">
+    
+    <%= form_for(@user, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+    
+     <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12" style="margin: 0 auto; float: none;">
+            <%= f.email_field :username, placeholder: "Email" %>
+            <%= f.password_field :password, placeholder: "Password", autocomplete: "off" %>
+            <%= f.submit(@user.new_record? ? "Sign up" : "Update account", class: 'submit-button') %>
+        </div>
+    </div>
+    <% end %>
+    <p class="form-messege"></p>
+    
+</div>

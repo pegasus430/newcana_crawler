@@ -1,0 +1,8 @@
+if ($('#product-search-results').css('display') == 'block') {
+	$('#product-search-results').append('<%= escape_javascript render(@product_results) %>');
+	$('.product-pagination .pagination').replaceWith('<%= escape_javascript will_paginate(@product_results) %>');
+}
+if ($('#article-search-results').css('display') == 'block') {
+	$('#article-search-results').append('<%= escape_javascript render(@article_results) %>');
+	$('.article-pagination .pagination').replaceWith('<%= escape_javascript will_paginate(@article_results) %>');
+}

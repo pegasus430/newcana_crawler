@@ -1,0 +1,80 @@
+// SASS variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+@import "active_admin/mixins";
+@import "active_admin/base";
+
+
+// skin changes
+$skinLogo: none;
+$skinActiveColor: #2ab081;
+$skinHeaderBck: #8A2A88; 
+$panelHeaderBck: #2f2f2f;
+
+@import "active_skin";
+
+#header #utility_nav li{
+  display: inline-block !important;
+}
+
+.admin_image_size {
+	width: 50px;
+	height: 50px;
+}
+
+#site_title_image{
+  height: 35px;
+  display: block;
+}
+#header h1.site_title{
+  padding-left: 10px !important;
+}
+.tab button.tablinks{
+  border: none;
+  background-image: none !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+  margin: 0px !important;
+  box-shadow: none !important;
+  background: #2ab081;
+  text-shadow: none !important;
+  padding: 11px 20px !important;
+}
+.tab button.active{
+  background: #000 !important;
+  border: 1px solid #000 !important;
+}
+.tabcontent {
+  background: #fff;
+  padding: 15px;
+}
+.panel_contents li{
+  list-style: none;
+  margin-bottom: 10px;
+}
+.panel_contents li label{
+  margin-right: 10px;
+}
+.panel_contents li select{
+  padding: 5px;
+}
+.has_many_remove{
+  background: red !important;
+}
+.has_many_fields ol li input {
+  width: 196px !important;
+}
+
+.inline-errors{
+  color: #e82814;
+}
+#dispensary_source_product_product_id{
+  margin-left: 52px;
+}

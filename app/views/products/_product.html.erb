@@ -1,0 +1,59 @@
+<!-- individual dispensary on the index -->
+<div class="col-md-3 productspacer ind-product">
+	<!-- product image -->
+	<a href="<%= product_path(product) %>">
+    	<% if product.image.present? && Rails.env.production? %>
+    	    <img src="<%=product.image_url(:product_show)%>" onerror="this.src='<%= asset_path product.default_image %>'" alt="<%=product.name%>">
+    	<% else %>
+    	    <%= image_tag(product.default_image) %>
+    	<% end %>
+    </a>
+    
+    <div class="description">
+        <!-- Start single productitem-->
+        <article class="overflow">                                     
+            <div class="zm-post-dis">
+                <div class="zm-post-header">
+                    
+                    <h5 class="h5height product-index-ind">
+                        <%=link_to product.name, product_path(product)%>
+                    </h5>
+                    <div class="zm-category hidden-991">
+                        <% if product.category.present? %>
+                            <a class="bg-cat-3 cat-btn" href="<%=products_path(product.category.name)%>">
+                                <%= product.category.name %></a>
+                        <% end %>
+                        
+                        <!--sub category-->
+                        <% if product.sub_category.present? %>
+                        
+                            <!--#see if it has is_dom-->
+                            <% if product.is_dom.present? %>
+                                
+                                <% if product.is_dom == 'Indica' %>
+                                
+                                    <a class="bg-cat-3 cat-btn" 
+                                        href="<%=products_path('Hybrid-Indica')%>">Hybrid-Indica</a>
+                                
+                                <% else %>
+                                
+                                    <a class="bg-cat-3 cat-btn" 
+                                        href="<%=products_path('Hybrid-Sativa')%>">Hybrid-Sativa</a>
+                                
+                                <% end %>
+                                
+                            <% else %>
+                                <a class="bg-cat-3 cat-btn" 
+                                    href="<%=products_path(product.sub_category)%>"><%= product.sub_category %></a>   
+                            <% end %>
+                            
+                        <% end %>
+                        
+                    </div>
+                    <%= render partial: 'shared/average_price_vendor', locals: {product: product} %>
+                </div>
+            </div>
+        </article>
+        <!-- End single productitem-->
+    </div>
+</div>

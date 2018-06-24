@@ -1,0 +1,281 @@
+<!-- Start of header area -->
+<header class="header-area header-wrapper clearfix">
+    
+    <div class = 'fix-logo'>
+        <a href="<%=root_path%>">
+            <amp-img src="<%=asset_path("header_footer/mean-bar-logo.png")%>" 
+                height="20" width="35" alt="<%= "Cannabiz Network Logo"%>" layout="responsive">
+        </a>
+    </div>
+    <div class = 'fix-search'>
+        <form role="search" method="get" target="_top" action = '/search'>
+            <input type="text" name="query" placeholder="What can we help you find..." autocomplete='on'>
+            <button type="submit">
+                <amp-img src="<%=asset_path("icons/search.png")%>" 
+                    height="16" width="16" layout="responsive">
+            </button>
+        </form>
+    </div>
+    <div class="header-top-bar bg-dark ptb-10 sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 hidden-xs">
+                    <div class="header-top-left">
+                        <nav class="header-top-menu zm-secondary-menu">
+                            <ul>
+                                <li><%= link_to 'Cannabiz Network', root_path %></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-5 col-xs-12 header-mdh">
+                    <div class="global-table">
+                        <div class="global-row">
+                            <div class="global-cell">
+                                <div class="logo">
+                                    
+                                    <!--if state use the state logo-->
+                                    <% if @state != nil && @state.logo != nil && @state.logo != '' %>
+                                        <a href="<%= root_path%>">
+                                            <amp-img src="<%=asset_path(@state.logo)%>" 
+                                                height="102" width="500" alt="<%= "#{@state.name} Cannabiz Logo"%>" layout="responsive">
+                                        </a>
+                                    <% else %>
+                                        <a href="<%= root_path%>">
+                                            <amp-img src="<%=asset_path("header_footer/cbz-logo-color.svg")%>" 
+                                                height="102" width="500" alt="<%= "Cannabiz Network Logo"%>" layout="responsive">
+                                        </a>
+                                    <% end %>
+                                    
+                                    <p class="site-desc"> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom-area bg-theme">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="menu-wrapper clearfix">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="mainmenu-area">
+                                    <nav class="primary-menu uppercase">
+                                        <ul class="clearfix customnavfont">
+                                            <li><%= link_to 'Home', root_path %></li>
+                                            <li>
+                                                <% if current_user %>
+                                                    <a href="<%= user_path(current_user)%>">My Page</a>
+                                                <% else %>
+                                                    <a href="<%= login_path %>">My Page</a>
+                                                <% end %>
+                                            </li>
+                                            <li><a href="<%= about_path %>">About</a></li>
+                                            <li><a href="<%= contact_us_path %>">Contact Us</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</header>
+
+<!-- Start page content -->
+<div id="page-content" class="page-wrapper">
+    <div class="zm-section single-post-wrap bg-white ptb-70 xs-pt-30">
+        <div class="container">
+            <div class="row">
+                <!-- Start left side -->
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 columns">
+                    <div class="row mb-40">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            
+                            <div class="tagcloudpad">
+                                <div itemprop="articleSection" class="zm-tagcloud">
+                                    <% @article.states.each do |state| %>
+                                        <a href="<%=state_path(state)%>"><%=state.name%></a>
+                                    <% end %>
+                                    <% @article.categories.each do |category| %>
+                                		<a href="<%=category_path(category)%>"><%=category.name%></a>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <article itemscope itemtype="http://schema.org/Article" class="zm-post-lay-single">
+                                <div class="zm-post-thumb">
+                            	    <% if @article.image.present? %>
+                                        <amp-img itemprop="image" src="<%=@article.image%>" 
+                                            alt="<%=@article.title%>" height="650" width="850" layout="responsive">
+                                    <% else %>
+                                        <amp-img itemprop="image" src="<%= asset_path 'homepage/news-substitute.jpg' %>"
+                                            alt="<%=@article.title%>" height="650" width="850" layout="responsive">
+                                    <% end %>
+                                </div>
+                                <div class="zm-post-dis">
+                                    <div class="zm-post-header">
+                                        <h2 itemprop="headline" itemprop="name" class="zm-post-title h2"><%=@article.title.titlecase%></h2>
+                                        <div class="zm-post-meta">
+                                            <ul>
+                                                <li class="s-meta"><a href="<%= source_path(@article.source) %>" class="zm-author">
+                                                    <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                                        <span itemprop="name"><%=@article.source.name%></span></span></a>
+                                                </li>
+                                                <li itemprop="datePublished" class="s-meta article-create"><%= @article.created_at.strftime("%B %d, %Y | %I:%M %p") %></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div itemprop="articleBody" class="zm-post-content">
+                                        <%frag = Nokogiri::HTML(@article.body)%>
+                                        <%frag.xpath("//h1").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//h2").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//h3").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//h4").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//h5").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//h6").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//a").each { |div|  div.name= "p"}%>
+                                        <%frag.xpath("//br").each { |div|  div.remove}%>
+                                        <% frag = sanitize simple_format(frag.text), tags: %w(p), attributes: %w() %>
+                                        <%= truncate_html frag, :length => 1000 %>
+                                        <br/>
+                                        <br/>
+                                        <span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+                                            <amp-img class="publisher-image" src="<%=asset_path(@article.source.sidebar_logo)%>" 
+                                                    itemprop="logo" height="28" width="28" layout="responsive">
+                                            <p>See Article on 
+                                                <span itemprop="name"><%= @article.source.name %></span>
+                                            	<a class = 'article-link' href="<%=@article.web_url%>">HERE</a>
+    										</p>
+                                        </span>
+                                    </div>
+                                    <div class="entry-meta-small clearfix ptb-40 mtb-40 border-top border-bottom">
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <!-- End single post image format -->
+                        <!--Start Similar post -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <aside class="zm-post-lay-a2-area">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="post-title mb-40">
+                                            <h2 class="h6 inline-block">Other Posts By <%= @article.source.name %></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="zm-posts clearfix">
+                                        <% @same_source_articles.each do |article| %>
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                <article class="zm-post-lay-a2">
+                                                    <div class="zm-post-thumb">
+                                                        <a href="<%= article_path(article) %>">
+                                                            <% if article.image.present? %>
+                                                                <amp-img src="<%=article.image%>" 
+                                                                    alt="<%=article.title%>" height="230" width="270" layout="responsive">
+                                                            <% else %>
+                                                                <amp-img src="<%= asset_path 'homepage/news-substitute.jpg' %>"
+                                                                    alt="<%=article.title%>" height="230" width="270" layout="responsive">
+                                                            <% end %>
+                                                        </a>
+                                                    </div>
+                                                    <div class="zm-post-dis">
+                                                        <div class="zm-post-header">
+                                                            <h2 class="zm-post-title h2"><%= link_to article.title.truncate(60).titlecase, article_path(article)%></h2>
+                                                            <div class="zm-post-meta">
+                                                                <ul>
+                                                                    <li class="s-meta"><%= link_to article.source.name, article_path(article), class: 'zm-author'%></li>
+                                                                    <li class="s-meta float-right"><%= link_to article.created_at.strftime("%B %d, %Y"), article_path(article), class: 'zm-date'%></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+                <!-- End left side -->
+                <!-- Start Right sidebar -->
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 sidebar-warp columns">
+                    <div class="row">
+                        <aside class="zm-post-lay-a-area col-sm-6 col-md-12 col-lg-12 sm-mt-50 xs-mt-50">
+                            <div class="row mb-40">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="section-title">
+                                         <h2 class="h6 header-color inline-block uppercase">Related Articles</h2> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <%= render :partial => "articles/top_products" %>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+                <!-- End Right sidebar -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer id="footer" class="footer-wrapper footer-1">
+    <div class="footer-top-wrap ptb-20 bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class = 'footer-image'>
+                        <a href="<%= root_path%>">
+                            <amp-img src="<%=asset_path("header_footer/cbz-logo-grayscale.PNG")%>" 
+                                alt="Cannabiz Network Footer Logo" height="135" width="660" layout="responsive">
+                        </a>
+        			</div>
+        		</div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-buttom bg-black ptb-15">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                    <div class="zm-copyright">
+                        <p class="uppercase">&copy;2017 Canna.biz All Rights Reserved.</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 text-right hidden-xs">
+                    <nav class="footer-menu zm-secondary-menu text-right">
+                        <ul>
+                            <li><a href="<%= about_path %>">About</a></li>                                    
+                            <li><a href="<%= terms_conditions_path%>">Terms &amp; Conditions</a></li>
+                            <li><a href="<%= privacy_policy_path %>">Privacy Policy</a></li>
+                            <li><a href="<%= contact_us_path %>">Contact Us</a></li>
+                            <li><a href="<%= feedback_path %>">Leave Feedback</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

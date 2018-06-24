@@ -1,0 +1,5 @@
+Hi <%= @user.username %>!
+
+You can reset your password here: 
+
+<%= edit_password_reset_url(@user.password_reset_token) %>

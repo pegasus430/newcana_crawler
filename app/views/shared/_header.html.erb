@@ -1,0 +1,191 @@
+<!-- Start of header area -->
+<header  class="header-area header-wrapper clearfix" style="background-image: url('<%= asset_path 'header_footer/cbz_source_banner.png' %>'); background-size: 100%">
+    <div class="header-top-bar bg-dark ptb-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 hidden-991">
+                    <div class="header-top-left">
+                        <nav class="header-top-menu zm-secondary-menu">
+                            <ul>
+                                <!--desktop logo-->
+                                <% if @state.present? && @state.logo.present? %>
+                                    <a href="<%=root_path%>">
+                                        <img style ="margin-top: -10px" src="<%=asset_path(@state.logo)%>">
+                                    </a>
+                                <% elsif @site_visitor_state.present? %>
+                                    <a href="<%=root_path%>">
+                                        <img style ="margin-top: -10px" src="<%=asset_path(@site_visitor_state.logo)%>">
+                                    </a>    
+                                <% else %>
+                            	    <%= link_to image_tag("header_footer/cbz-logo-color.svg"), root_path %>
+                                <% end %>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5">
+                    <div class="header-top-right clierfix text-right">
+                        <div class="user-accoint topbar-sblock">
+                                <span class="login-btn uppercase">
+                                    <%= link_to @cart, class: 'menu-cart' do  %>
+        								<i class="fa fa-shopping-cart"></i>
+        								<%= number_to_currency @cart.total_price %>
+        							<% end %>
+                                </span>
+                                <span class="uppercase"> | </span>
+                            <% if logged_in? %>
+                                <span class="login-btn uppercase"><%= link_to 'Logout', logout_path, method: :delete %></span>
+                                <span class="uppercase"> | </span>
+                                <span class="login-btn uppercase"><%= link_to 'Change Password', change_password_path(current_user) %></span>
+                            <% else %>
+                                <span class="login-btn uppercase"><%= link_to 'Login', login_path %></span>
+                                <span class="uppercase"> | </span>
+                                <span class="login-btn uppercase"><%= link_to 'Register', signup_path %></span>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="header-middle-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xs-12 header-mdh">
+                    <div class="global-table">
+                        <div class="global-row">
+                            <div class="global-cell">
+                                <div class="logo">
+                                    <!--if state use the state logo-->
+                                    <% if @state != nil && @state.logo.present? %>
+                                        <%= link_to image_tag(asset_path(@state.logo), alt: "#{@state.name} Cannabiz Logo"), root_path %>
+                                    <% elsif @site_visitor_state != nil && @site_visitor_state.logo.present? %>
+                                        <%= link_to image_tag(asset_path(@site_visitor_state.logo), alt: "#{@site_visitor_state.name} Cannabiz Logo"), root_path %>
+                                    <% else %>
+                                	    <%= link_to image_tag("header_footer/cbz-logo-color.svg", alt: "Cannabiz Network Logo"), root_path %>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="header-bottom-area bg-theme hidden-sm hidden-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="menu-wrapper clearfix">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="mainmenu-area">
+                                    <nav class="primary-menu uppercase">
+                                        <ul class="clearfix customnavfont">
+                                            <li><%= link_to 'Home', root_path %></li>
+                                            <li>
+                                                <% if current_user %>
+                                                    <a href="<%= user_path(current_user)%>">My Page</a>
+                                                <% else %>
+                                                    <a href="<%= login_path %>">My Page</a>
+                                                <% end %>
+                                            </li>
+                                            <% if @site_visitor_state.present? %>
+                                                <li><a href="<%= state_path(@site_visitor_state) %>">News</a></li>
+                                            <% else %>
+                                                <li><a href="<%= articles_path %>">News</a></li>
+                                            <% end %>
+                                            
+                                            <li><a href="<%= products_path %>">Products</a></li>
+                                            <li><a href="<%= blog_index_path %>">Blog</a></li>
+                                            <li class="ipad-remove"><a href="<%= contact_us_path %>">Contact Us</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding-right: 0;">
+                                <div class="search-wrap pull-right">
+                                    <div class="search-form">
+                                        
+                                        <form class="navbar-form" role="search" method="get" action = '/search'>
+                                            <input type="search" name="query" placeholder="Search by Product, Not by Dispensary" autocomplete='on'>
+                                            <button type="submit">Search</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- mobile-menu-area start -->
+    <div class="mobile-menu-area hidden-md hidden-lg">
+        <div class="fluid-container">
+            <div class="mobile-menu clearfix">
+                <div class="search-wrap mobile-search">
+                    <div class="mobile-search-btn"><%=image_tag("icons/search.png")%></div>
+                    <div class="mobile-search-form">
+                        <form class="navbar-form" role="search" method="get" action = '/search'>
+                            <input type="text" name="query" placeholder="Search by Product, not by Dispensary" autocomplete='on'>
+                            <button type="submit"><%=image_tag("icons/search.png")%></button>
+                        </form>
+                    </div>
+                </div>
+                <nav id="mobile_dropdown">
+                    <ul class="customnavfont">
+                        
+                        <li><%= link_to 'Home', root_path %></li>
+                        <li>
+                            <% if current_user %>
+                                <a href="<%= user_path(current_user)%>">My Page</a>
+                            <% else %>
+                                <a href="<%= login_path %>">My Page</a>
+                            <% end %>
+                        </li>
+                        <li><a href="<%= articles_path %>">News</a></li>
+                        <li><a href="<%= products_path %>">Products</a></li>
+                        <li><a href="<%= contact_us_path %>">Contact Us</a></li>
+                        <li><a href="<%= feedback_path %>">Leave Feedback</a></li>
+                                            
+                    </ul>
+                </nav>
+            </div>       
+        </div>
+    </div>
+    <!-- mobile-menu-area end -->   
+</header>
+
+<!--mobile sticky header-->
+<div id = "mobile-sticky-logo">
+    <!--desktop logo-->
+    <% if @state.present? && @state.logo.present? %>
+        <%= link_to image_tag(asset_path(@state.logo)), root_path %>
+    <% elsif @site_visitor_state.present? && @site_visitor_state.logo.present? %>
+        <%= link_to image_tag(asset_path(@site_visitor_state.logo)), root_path %>
+    <% else %>
+	    <%= link_to image_tag("header_footer/mean-bar-logo.png"), root_path %>
+    <% end %>
+</div>
+
+<div id = "mobile-sticky-header">
+    <div class="col-xs-12">
+        <div class="archive-inner">
+            <div class="archive-filter">
+                <% if @recents.present? || @article.present? %>
+                    <%= render 'shared/sticky_header_news' %>	                    
+				<% elsif @products.present? || @product.present? %>
+					<%= render 'shared/sticky_header_products' %>
+				<% elsif @dispensary.present? && current_page?(dispensary_path(@dispensary)) %>
+				    <%= render 'shared/sticky_header_dispensary' %>
+				<% else %>
+				    <%= render 'shared/sticky_header_home' %>
+				<% end %>
+            </div>
+        </div>
+    </div>                        
+</div>
