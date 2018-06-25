@@ -16,8 +16,8 @@ class WeedMapsDispensaryScraper(object):
             WeedMapsDetailsExtractor(HttpClient())
         )
 
-        # self._url = "https://api-g.weedmaps.com/wm/v2/location?include%5B%5D=" \
-        #             "regions.listings&region_slug={0}&page_size=150"
+        self._url = "https://api-g.weedmaps.com/wm/v2/location?include%5B%5D=" \
+                    "regions.listings&region_slug={0}&page_size=150"
 
     def produce(self, state):
         should_continue = True
@@ -40,13 +40,14 @@ class WeedMapsDispensaryScraper(object):
         url = self.reconstruct_url(item_from_poroduce)
         response = self._http_client.get(url)
         if response.success:
-            json_data = loadJson(response.content)        
+            json_data = loadJson(response.content)
             return self._weedmaps_disp_extractor.extract(json_data)
         return None
-    
+
     @staticmethod
     def reconstruct_url(url_part):
         return "https://api-g.weedmaps.com/wm/web/v1/listings/" + url_part + "/menu?type=dispensary"
+
 
 def scrape(arr):
     dispFilter = get_dispensary_filter(arr)
@@ -55,5 +56,6 @@ def scrape(arr):
 
     return json.dumps(result)
 
+
 if __name__ == "__main__":
-     print (scrape(sys.argv[1:]))
+    print (scrape(sys.argv[1:]))
