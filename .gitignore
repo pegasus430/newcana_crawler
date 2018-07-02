@@ -19,3 +19,11 @@
 # Ignore application configuration
 /config/application.yml
 config/application.yml
+
+ChangeLog
+*.egg*
+.tox/*
+.idea/
+devenv/*
+cover
+.coverage
